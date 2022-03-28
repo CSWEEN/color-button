@@ -36,12 +36,39 @@ it('should have the checkbox unchecked initially', () => {
 it('should disable the button when checked', () => {
   render(<App/>);
 
-  const button = screen.getByRole('button');
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' });
   const checkbox = screen.getByRole('checkbox', { name: 'Disable button'});
 
   fireEvent.click(checkbox);
-  expect(button).toBeDisabled();
+  expect(colorButton).toBeDisabled();
 
   fireEvent.click(checkbox);
-  expect(button).toBeEnabled();
+  expect(colorButton).toBeEnabled();
+});
+
+it('should have a grey button when disabled', () => {
+  render(<App/>)
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' });
+  const checkbox = screen.getByRole('checkbox', { name: 'Disable button'});
+
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle( {backgroundColor: 'gray'} );
+
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle({ backgroundColor: 'red' });
+});
+
+it('should have a grey button even after being clicked, when enabled turns back to blue', () => {
+  render(<App/>)
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' });
+  const checkbox = screen.getByRole('checkbox', { name: 'Disable button'});
+
+  fireEvent.click(colorButton);
+  expect(colorButton).toHaveStyle({ backgroundColor: 'blue' });
+
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle( {backgroundColor: 'gray'} );
+
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle({ backgroundColor: 'blue' });
 });
