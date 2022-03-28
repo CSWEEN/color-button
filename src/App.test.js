@@ -37,7 +37,7 @@ it('should disable the button when checked', () => {
   render(<App/>);
 
   const button = screen.getByRole('button');
-  const checkbox = screen.getByRole('checkbox');
+  const checkbox = screen.getByRole('checkbox', { name: 'Disable button'});
 
   fireEvent.click(checkbox);
   expect(button).toBeDisabled();
